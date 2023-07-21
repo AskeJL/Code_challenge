@@ -55,7 +55,7 @@ export interface ConditionsWind {
 export class MetarComponent implements OnInit {
     searchQuery: string;
     tableData: TableRow[] = [];
-    dataSource = {} as Metar;
+    dataSource = {};
     displayedColumns: string[] = ['key', 'value'];
     
   constructor(private forecastService: ForecastBackendService) {
@@ -72,5 +72,12 @@ export class MetarComponent implements OnInit {
       }
     })
   }
-  
+  isObject(value: any): boolean {
+    return typeof value === 'object' && value !== null;
+  }
+
+  prettyPrint(obj: any): string {
+    return JSON.stringify(obj, null, 2);
+  }
+
 }
