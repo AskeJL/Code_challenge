@@ -59,7 +59,7 @@ namespace Code_challenge_backend.Controllers {
                 // You might need to create models to represent the data structure.
                 var weatherData = JsonConvert.DeserializeObject<WeatherData>(responseBody);
                 Console.WriteLine(weatherData.Report.Forecast);
-                return Ok(weatherData.Report.Forecast);
+                return Ok(weatherData.Report);
 
             } catch (HttpRequestException ex) {
                 // Handle any exceptions that might occur during the HTTP request

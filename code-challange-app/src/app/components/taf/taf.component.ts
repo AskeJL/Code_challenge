@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
 import { ForecastBackendService} from "src/app/services/forecast-backend.service"
 import { CloudLayer } from '../metar/metar.component';
 import { Visibility } from '../metar/metar.component';
@@ -52,11 +53,35 @@ export interface ConditionWind {
 export class TafComponent implements OnInit {
     searchQuery: string;
     dataSource = {} as Taf;
+    conditionsArray : Condition[] = [];
     displayedColumns: string[] = ['key', 'value'];
   constructor(private forecastService: ForecastBackendService) { 
     this.searchQuery = '';
   }
 
+  isKeyRow(row: any): boolean {
+    return row.isKeyRow;
+  }
+
+  getDataSource(condition: Condition): MatTableDataSource<{ key: string; value: any }> {
+    const data: { key: string; value: any }[] = [];
+    Object.keys(condition).forEach(key => {
+      if (this.isObject(condition[key as keyof Condition])){
+        data.push({ key, value: this.prettyPrint(condition[key as keyof Condition]) });
+      }else{
+        data.push({ key, value: condition[key as keyof Condition] });
+      }
+      
+    });
+    return new MatTableDataSource(data);
+  }
+  formatValue(value: any): string {
+    if (typeof value === 'object') {
+      return JSON.stringify(value, null, 2);
+    } else {
+      return value.toString();
+    }
+  }
   ngOnInit(): void {
   }
 
@@ -64,9 +89,19 @@ export class TafComponent implements OnInit {
     this.forecastService.getTaf(this.searchQuery)
     .subscribe({
       next: (response) => {
+        console.log(response);
         this.dataSource = response;
+        this.conditionsArray = response.conditions;
+        console.log(this.dataSource);
       }
     })
+  }
+  isObject(value: any): boolean {
+    return typeof value === 'object' && value !== null;
+  }
+
+  prettyPrint(obj: any): string {
+    return JSON.stringify(obj, null, 2);
   }
 
 }

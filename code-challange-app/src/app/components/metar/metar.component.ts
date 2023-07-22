@@ -69,6 +69,7 @@ export class MetarComponent implements OnInit {
     .subscribe({
       next: (response) => {
         this.dataSource = response;
+        console.log(this.dataSource);
       }
     })
   }
