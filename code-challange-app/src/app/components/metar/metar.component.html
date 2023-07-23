@@ -3,6 +3,18 @@
   <input type="text" [(ngModel)]="searchQuery" placeholder="Search" />
   <button (click)="onSearch()">Search</button>
 </div>
+
+<ng-container>
+  <h3> Earlier lookups </h3>
+  <mat-form-field>
+    <mat-label>Select Timestamp</mat-label>
+    <mat-select (selectionChange)="onTimestampSelected($event)">
+      <mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">
+        {{ formatTimestamp(timestamp) }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</ng-container>
 <table mat-table [dataSource]="dataSource | keyvalue" class="mat-elevation-z8 table">
 
   <!--- Note that these columns can be defined in any order.
