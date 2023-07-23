@@ -70,7 +70,7 @@ export class MetarComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.timestamps = this.forecastService.getStoredTimestamps();
+    this.timestamps = this.forecastService.getStoredTimestamps('Metar');
     // Set the initial data source to the latest fetched data (if available)
     this.selectedTimestamp = this.timestamps.length > 0 ? this.timestamps[this.timestamps.length - 1] : null;
     this.onTimestampSelected(this.selectedTimestamp); // Load the selected data initially.
@@ -83,8 +83,8 @@ export class MetarComponent implements OnInit {
         console.log(this.dataSource);
       }
     })
-    this.timestamps = this.forecastService.getStoredTimestamps();
-    console.log(this.forecastService.getStoredTimestamps());
+    this.timestamps = this.forecastService.getStoredTimestamps('Metar');
+    console.log(this.forecastService.getStoredTimestamps('Metar'));
   }
   isObject(value: any): boolean {
     return typeof value === 'object' && value !== null;

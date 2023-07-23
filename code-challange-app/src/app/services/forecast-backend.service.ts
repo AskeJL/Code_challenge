@@ -52,8 +52,8 @@ export class ForecastBackendService {
     }
   }
 
-  getStoredTimestamps(): number[] {
-    return this.cache.map((entry) => entry.timestamp);
+  getStoredTimestamps(s:string): number[] {
+    return this.cache.filter((entry) => entry.url.includes(s)).map((data) => data.timestamp);
   }
 
   getStoredDataByTimestamp(timestamp: number): any {
