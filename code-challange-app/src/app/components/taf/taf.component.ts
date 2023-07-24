@@ -82,13 +82,7 @@ export class TafComponent implements OnInit {
     });
     return new MatTableDataSource(data);
   }
-  formatValue(value: any): string {
-    if (typeof value === 'object') {
-      return this.prettyPrint(value);
-    } else {
-      return value.toString();
-    }
-  }
+  
   ngOnInit(): void {
     this.timestamps = this.forecastService.getStoredTimestamps('Taf');
   }
@@ -113,13 +107,11 @@ export class TafComponent implements OnInit {
     let result = '';
 
     if (Array.isArray(obj)) {
-      // If obj is an array of objects
       for (const item of obj) {
         result += this.prettyPrint(item); // Recursively format each object
-        result += '\n'; // Add a newline after each object
+        result += '\n'; 
       }
     } else {
-      // If obj is an individual object
       for (const key of Object.keys(obj)) {
         result += `${key} : ${obj[key]}\n`;
       }
@@ -141,7 +133,6 @@ export class TafComponent implements OnInit {
     }
   }
   formatTimestamp(timestamp: number): string {
-    // Implement your desired timestamp formatting here (e.g., using 'Date' pipe)
     const date = new Date(timestamp);
     return date.toLocaleString();
   }

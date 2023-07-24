@@ -71,9 +71,8 @@ export class MetarComponent implements OnInit {
 
   ngOnInit(): void {
     this.timestamps = this.forecastService.getStoredTimestamps('Metar');
-    // Set the initial data source to the latest fetched data (if available)
     this.selectedTimestamp = this.timestamps.length > 0 ? this.timestamps[this.timestamps.length - 1] : null;
-    this.onTimestampSelected(this.selectedTimestamp); // Load the selected data initially.
+    this.onTimestampSelected(this.selectedTimestamp);
   }
   onSearch() {
     this.forecastService.getMetar(this.searchQuery)
@@ -94,10 +93,9 @@ export class MetarComponent implements OnInit {
     let result = '';
 
     if (Array.isArray(obj)) {
-      // If obj is an array of objects
       for (const item of obj) {
         result += this.prettyPrint(item); // Recursively format each object
-        result += '\n'; // Add a newline after each object
+        result += '\n'; 
       }
     } else {
       // If obj is an individual object
@@ -117,11 +115,10 @@ export class MetarComponent implements OnInit {
       console.log(this.selectedData);
       this.dataSource = this.selectedData;
     } else {
-      this.selectedData = null; // No data selected
+      this.selectedData = null;
     }
   }
   formatTimestamp(timestamp: number): string {
-    // Implement your desired timestamp formatting here (e.g., using 'Date' pipe)
     const date = new Date(timestamp);
     return date.toLocaleString();
   }

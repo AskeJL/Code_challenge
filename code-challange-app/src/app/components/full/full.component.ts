@@ -74,13 +74,6 @@ export class FullComponent implements OnInit {
     });
     return new MatTableDataSource(data);
   }
-  formatValue(value: any): string {
-    if (typeof value === 'object') {
-      return this.prettyPrint(value);
-    } else {
-      return value.toString();
-    }
-  }
 
   isObject(value: any): boolean {
     return typeof value === 'object' && value !== null;
@@ -90,10 +83,9 @@ export class FullComponent implements OnInit {
     let result = '';
 
     if (Array.isArray(obj)) {
-      // If obj is an array of objects
       for (const item of obj) {
         result += this.prettyPrint(item); // Recursively format each object
-        result += '\n'; // Add a newline after each object
+        result += '\n';
       }
     } else {
       // If obj is an individual object
@@ -108,7 +100,6 @@ export class FullComponent implements OnInit {
   onTimestampSelected(timestamp: any | null) {
     this.selectedTimestamp = timestamp;
     if (timestamp !== null) {
-      // Fetch the stored data for the selected timestamp
       this.selectedData = this.forecastService.getStoredDataByTimestamp(timestamp.value);
       console.log(this.selectedData);
       this.dataSourceTaf = this.selectedData.forecast;
@@ -119,7 +110,6 @@ export class FullComponent implements OnInit {
     }
   }
   formatTimestamp(timestamp: number): string {
-    // Implement your desired timestamp formatting here (e.g., using 'Date' pipe)
     const date = new Date(timestamp);
     return date.toLocaleString();
   }
