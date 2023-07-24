@@ -1,9 +1,28 @@
-<!-- Search Field and Button -->
-<div>
+<div class="container">
+  <!-- Left element -->
+  <div class="left-element">
     <h3> Search for aiport using ICAO</h3>
-    <input type="text" [(ngModel)]="searchQuery" placeholder="Search" />
-    <button (click)="onSearch()">Search</button>
+    <div>
+      <input type="text" [(ngModel)]="searchQuery" placeholder="Search" />
+      <button (click)="onSearch()">Search</button>
+    </div>
   </div>
+
+  <!-- Right element (Dropdown menu) -->
+  <div class="right-element">
+    <ng-container>
+      <h3> Earlier lookups </h3>
+      <mat-form-field>
+        <mat-label>Select Timestamp</mat-label>
+        <mat-select (selectionChange)="onTimestampSelected($event)">
+          <mat-option *ngFor="let timestamp of timestamps" [value]="timestamp">
+            {{ formatTimestamp(timestamp) }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+  </div>
+</div>
 
 
   <table mat-table [dataSource]="dataSource | keyvalue" class="mat-elevation-z8 table">

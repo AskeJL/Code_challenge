@@ -3,6 +3,10 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ForecastBackendService} from "src/app/services/forecast-backend.service"
 import { CloudLayer } from '../metar/metar.component';
 import { Visibility } from '../metar/metar.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { time } from 'console';
 
 export interface Taf {
   text:        string;
@@ -55,6 +59,9 @@ export class TafComponent implements OnInit {
     dataSource = {} as Taf;
     conditionsArray : Condition[] = [];
     displayedColumns: string[] = ['key', 'value'];
+    timestamps: number[] = [];
+    selectedTimestamp: number | null = null;
+    selectedData: any;
   constructor(private forecastService: ForecastBackendService) { 
     this.searchQuery = '';
   }
@@ -83,6 +90,7 @@ export class TafComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    this.timestamps = this.forecastService.getStoredTimestamps('Taf');
   }
 
   onSearch() {
@@ -95,6 +103,7 @@ export class TafComponent implements OnInit {
         console.log(this.dataSource);
       }
     })
+    this.timestamps = this.forecastService.getStoredTimestamps('Taf');
   }
   isObject(value: any): boolean {
     return typeof value === 'object' && value !== null;
@@ -117,6 +126,24 @@ export class TafComponent implements OnInit {
     }
 
     return result;
+  }
+
+  onTimestampSelected(timestamp: any | null) {
+    this.selectedTimestamp = timestamp;
+    if (timestamp !== null) {
+      // Fetch the stored data for the selected timestamp
+      this.selectedData = this.forecastService.getStoredDataByTimestamp(timestamp.value);
+      console.log(this.selectedData);
+      this.dataSource = this.selectedData;
+      this.conditionsArray = this.selectedData.conditions;
+    } else {
+      this.selectedData = null; // No data selected
+    }
+  }
+  formatTimestamp(timestamp: number): string {
+    // Implement your desired timestamp formatting here (e.g., using 'Date' pipe)
+    const date = new Date(timestamp);
+    return date.toLocaleString();
   }
 
 }

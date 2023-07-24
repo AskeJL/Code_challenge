@@ -8,6 +8,10 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Console } from 'console';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { time } from 'console';
 
 export interface Full{
   conditions : Metar;
@@ -28,11 +32,15 @@ export class FullComponent implements OnInit {
   dataSourceTaf = {};
   conditionsArray : Condition[] = [];
   displayedColumns: string[] = ['key', 'value'];
+  timestamps: number[] = [];
+  selectedTimestamp: number | null = null;
+  selectedData = {} as Full;
   constructor(private forecastService: ForecastBackendService) { 
     this.searchQuery = "";
   }
 
   ngOnInit(): void {
+    this.timestamps = this.forecastService.getStoredTimestamps('Full');
   }
 
   onSearch() {
@@ -50,7 +58,8 @@ export class FullComponent implements OnInit {
         
         this.loading = false;
       }
-    })}, 5000);
+    })}, 3000);
+    this.timestamps = this.forecastService.getStoredTimestamps('Full');
   }
 
   getDataSource(condition: Condition): MatTableDataSource<{ key: string; value: any }> {
@@ -94,6 +103,25 @@ export class FullComponent implements OnInit {
     }
 
     return result;
+  }
+
+  onTimestampSelected(timestamp: any | null) {
+    this.selectedTimestamp = timestamp;
+    if (timestamp !== null) {
+      // Fetch the stored data for the selected timestamp
+      this.selectedData = this.forecastService.getStoredDataByTimestamp(timestamp.value);
+      console.log(this.selectedData);
+      this.dataSourceTaf = this.selectedData.forecast;
+      this.dataSourceMetar = this.selectedData.conditions;
+      this.conditionsArray = this.selectedData.forecast.conditions;
+    } else {
+      this.selectedData = {} as Full // No data selected
+    }
+  }
+  formatTimestamp(timestamp: number): string {
+    // Implement your desired timestamp formatting here (e.g., using 'Date' pipe)
+    const date = new Date(timestamp);
+    return date.toLocaleString();
   }
 
 }

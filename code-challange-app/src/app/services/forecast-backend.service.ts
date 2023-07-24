@@ -22,10 +22,12 @@ export class ForecastBackendService {
   }
 
   getTaf(name: string){
+    return this.getDataFromCacheOrFetch(this.baseApiUrl + "/Forecast/GetTaf?airportString="+name);
     return this.http.get<Taf>(this.baseApiUrl + "/Forecast/GetTaf?airportString="+name);
   }
 
   getFull(name: string){
+    return this.getDataFromCacheOrFetch(this.baseApiUrl + "/Forecast/GetFull?airportString="+name);
     return this.http.get<Full>(this.baseApiUrl + "/Forecast/GetFull?airportString="+name);
   }
 

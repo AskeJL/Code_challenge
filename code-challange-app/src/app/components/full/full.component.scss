@@ -14,3 +14,17 @@
   .spinner {
     fill: white; /* Color of the spinner */
   }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .left-element {
+    position: relative;
+  }
+  
+  .right-element {
+    position: relative;
+  }
