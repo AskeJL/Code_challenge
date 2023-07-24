@@ -23,3 +23,17 @@
     text-align: center;
     font-weight: bold;
   }
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  
+  .left-element {
+    position: relative;
+  }
+  
+  .right-element {
+    position: relative;
+  }
