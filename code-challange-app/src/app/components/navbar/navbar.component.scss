@@ -1,7 +1,11 @@
-nav {
+mat-toolbar {
     background-color: #240a97;
-    height: 40px;
+    height: 80px;
     padding-bottom: 10px;
+  }
+
+  .Headline {
+      color: white;
   }
   
   ul {
@@ -27,4 +31,5 @@ nav {
   
   a:hover {
     background-color: #555;
+    size: 0cm;
   }
