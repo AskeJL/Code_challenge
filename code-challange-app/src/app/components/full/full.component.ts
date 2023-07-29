@@ -87,7 +87,11 @@ export class FullComponent implements OnInit {
         result += this.prettyPrint(item); // Recursively format each object
         result += '\n';
       }
-    } else {
+    }else if (typeof obj === 'string'){
+      result += obj;
+      result += '\n';
+    } 
+    else {
       // If obj is an individual object
       for (const key of Object.keys(obj)) {
         result += `${key} : ${obj[key]}\n`;

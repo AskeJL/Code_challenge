@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { time } from 'console';
+import { isString } from 'util';
 
 interface TableRow {
   type: string;
@@ -97,7 +98,11 @@ export class MetarComponent implements OnInit {
         result += this.prettyPrint(item); // Recursively format each object
         result += '\n'; 
       }
-    } else {
+    } else if (typeof obj === 'string'){
+      result += obj;
+      result += '\n';
+    }
+    else {
       // If obj is an individual object
       for (const key of Object.keys(obj)) {
         result += `${key} : ${obj[key]}\n`;
