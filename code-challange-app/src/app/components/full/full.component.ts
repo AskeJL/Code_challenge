@@ -52,7 +52,15 @@ export class FullComponent implements OnInit {
         console.log(response);
         this.dataSourceMetar = response.conditions;
         console.log(response.conditions);
-        this.dataSourceTaf = response.forecast;
+        this.dataSourceTaf = {
+          text : response.forecast.text, 
+          ident:       response.forecast.ident,
+          dateIssued:  response.forecast.dateIssued,
+          period:      response.forecast.period,
+          lat:         response.forecast.lat,
+          lon:         response.forecast.lon,
+          elevationFt: response.forecast.elevationFt,
+        };
         console.log(response.forecast);
         this.conditionsArray = response.forecast.conditions;
         
@@ -106,7 +114,15 @@ export class FullComponent implements OnInit {
     if (timestamp !== null) {
       this.selectedData = this.forecastService.getStoredDataByTimestamp(timestamp.value);
       console.log(this.selectedData);
-      this.dataSourceTaf = this.selectedData.forecast;
+      this.dataSourceTaf = {
+        text : this.selectedData.forecast.text, 
+        ident:       this.selectedData.forecast.ident,
+        dateIssued:  this.selectedData.forecast.dateIssued,
+        period:      this.selectedData.forecast.period,
+        lat:         this.selectedData.forecast.lat,
+        lon:         this.selectedData.forecast.lon,
+        elevationFt: this.selectedData.forecast.elevationFt,
+      };
       this.dataSourceMetar = this.selectedData.conditions;
       this.conditionsArray = this.selectedData.forecast.conditions;
     } else {

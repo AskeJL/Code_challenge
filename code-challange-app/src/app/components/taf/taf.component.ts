@@ -19,6 +19,16 @@ export interface Taf {
   conditions:  Condition[];
 }
 
+export interface TafModified {
+  text:        string;
+  ident:       string;
+  dateIssued:  string;
+  period:      Period;
+  lat:         number;
+  lon:         number;
+  elevationFt: number;
+}
+
 export interface Condition {
   text:             string;
   dateIssued:       string;
@@ -56,7 +66,7 @@ export interface ConditionWind {
 
 export class TafComponent implements OnInit {
     searchQuery: string;
-    dataSource = {} as Taf;
+    dataSource = {} as TafModified;
     conditionsArray : Condition[] = [];
     displayedColumns: string[] = ['key', 'value'];
     timestamps: number[] = [];
@@ -92,7 +102,15 @@ export class TafComponent implements OnInit {
     .subscribe({
       next: (response) => {
         console.log(response);
-        this.dataSource = response;
+        this.dataSource = {
+          text : response.text, 
+          ident:       response.ident,
+          dateIssued:  response.dateIssued,
+          period:      response.period,
+          lat:         response.lat,
+          lon:         response.lon,
+          elevationFt: response.elevationFt,
+        };
         this.conditionsArray = response.conditions;
         console.log(this.dataSource);
       }
@@ -130,7 +148,15 @@ export class TafComponent implements OnInit {
       // Fetch the stored data for the selected timestamp
       this.selectedData = this.forecastService.getStoredDataByTimestamp(timestamp.value);
       console.log(this.selectedData);
-      this.dataSource = this.selectedData;
+      this.dataSource = {
+        text : this.selectedData.text, 
+        ident:       this.selectedData.ident,
+        dateIssued:  this.selectedData.dateIssued,
+        period:      this.selectedData.period,
+        lat:         this.selectedData.lat,
+        lon:         this.selectedData.lon,
+        elevationFt: this.selectedData.elevationFt,
+      };
       this.conditionsArray = this.selectedData.conditions;
     } else {
       this.selectedData = null; // No data selected
